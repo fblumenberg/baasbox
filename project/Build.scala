@@ -24,6 +24,7 @@ import com.typesafe.sbteclipse.core._
 import com.typesafe.sbt.packager.Keys.stage
 import com.typesafe.sbt.SbtNativePackager.Universal
 import java.io.File
+import com.github.play2war.plugin._
 
 object ApplicationBuild extends Build {
 	override def settings = super.settings ++ Seq(
@@ -66,14 +67,17 @@ object ApplicationBuild extends Build {
     val baas = taskKey[File]("distribute standard baasbox format")
 
 
-    val main = play.Project(appName, appVersion, appDependencies).settings(
+    val main = play.Project(appName, appVersion, appDependencies).settings(Play2WarPlugin.play2WarSettings: _*).settings(
        sources in doc in Compile := List(),
 
       resolvers := Seq(
+          "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/",
+//          "mtgAllPublic" at "http://lara.mtg.de:8082/nexus/content/groups/mtgAllPublic",
           "sonatype-releases" at "https://oss.sonatype.org/content/repositories/releases",
           "sonatype-snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
-		      "eaio" at "http://eaio.com/maven2"
+          "eaio" at "http://eaio.com/maven2"
 	      )
+       , Play2WarKeys.servletVersion := "3.0"
        ,baas := {
           val distributionName = name.value.toLowerCase + "-" + version.value
 		  val baseTarget = file(target.value.getAbsolutePath) / "universal"

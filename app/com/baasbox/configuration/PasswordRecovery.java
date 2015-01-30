@@ -32,6 +32,8 @@ public enum PasswordRecovery implements IProperties{
 	EMAIL_SUBJECT("email.subject", "The subject of the email to send.", String.class),
 	EMAIL_EXPIRATION_TIME("email.expiration.time", "Minutes before the reset code expires.", Integer.class),
 
+    EMAIL_RESET_URL("email.reset.url", "The public url for the reset link. This can be a different from the BaasBox server. If it is not set, the application settings will be used.", String.class),
+
 	PAGE_HTML_TEMPLATE("page.html.template","The HTML template of the reset password page. You coud use the following placeholder: $user_name$, $link$, $error$, $password$, $repeat_password$, $application_name$.", String.class),
 	PAGE_HTML_FEEDBACK_TEMPLATE("page.html.feedback.template","The HTML template feedback page. It should contain the $error$ and $message$ placeholders.", String.class),
 	
@@ -42,6 +44,8 @@ public enum PasswordRecovery implements IProperties{
 	NETWORK_SMTP_AUTHENTICATION("network.smtp.authentication", "Set to TRUE if the SMTP server requires authentication.", Boolean.class),
 	NETWORK_SMTP_USER("network.smtp.user", "The username required by the SMTP server when authentication is required. Used only if network.smtp.authentication is set to TRUE", String.class),
 	NETWORK_SMTP_PASSWORD("network.smtp.password", "The password required by the SMTP server if it requires authentication. Used only if network.smtp.authentication is set to TRUE", String.class);
+
+
 	
 	private final String                 key;
 	private final Class<?>               type;

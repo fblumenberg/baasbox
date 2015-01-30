@@ -517,6 +517,7 @@ public class UserService {
 		if (!user.getSchemaClass().getName().equalsIgnoreCase(UserDao.MODEL_NAME)) throw new PasswordRecoveryException (errorString + " invalid user object");
 
 		//initialization
+        String emailResetUrl = PasswordRecovery.EMAIL_RESET_URL.getValueAsString();
         String siteHost = Application.NETWORK_HTTP_HOST.getValueAsString();
 		String siteUrl = Application.NETWORK_HTTP_URL.getValueAsString();
 		int sitePort = Application.NETWORK_HTTP_PORT.getValueAsInteger();
@@ -560,7 +561,7 @@ public class UserService {
 			//Send mail
 			HtmlEmail email = null;
 
-			URL resetUrl = new URL(Application.NETWORK_HTTP_SSL.getValueAsBoolean()? "https" : "http", siteHost, sitePort, siteUrl + "/user/password/reset/"+sBase64Random);
+            URL resetUrl = StringUtils.isNotEmpty(emailResetUrl) ? new URL(emailResetUrl + sBase64Random) : new URL(Application.NETWORK_HTTP_SSL.getValueAsBoolean() ? "https" : "http", siteHost, sitePort, siteUrl + "/user/password/reset/" + sBase64Random);
 
 			//HTML Email Text
 			ST htmlMailTemplate = new ST(htmlEmail, '$', '$');
